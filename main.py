@@ -6,6 +6,7 @@ from PIL import Image, ImageTk
 from PIL import ImageTk
 
 
+
 class Notepad:
     def __init__(self, root):
         self.root = root
@@ -28,7 +29,9 @@ class Notepad:
         file_menu.add_command(label="Save", command=self.save)
         file_menu.add_command(label="Open", command=self.open)
         file_menu.add_command(label="New", command=self.create_new_file)
-#
+        file_menu.add_command(label="Open containing folder", command=self.open_containing_folder)
+        file_menu.add_command(label="Open in Notepad", command=self.open_in_notepad)
+        #
         # Creamos un menú Edit (Editar)
         edit_menu = tk.Menu(menubar)
         menubar.add_cascade(label="Edit", menu=edit_menu)
@@ -61,6 +64,17 @@ class Notepad:
         if file_dialog:
             with open(file_dialog, "w") as file:
                 file.write("")
+
+    def open_containing_folder(self):
+        file_path = filedialog.askopenfilename()
+        if file_path:
+            folder_path = os.path.dirname(file_path)
+            os.startfile(folder_path)
+
+    def open_in_notepad(self):
+        file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
+        if file_path:
+            os.startfile(file_path)
 
     def search(self):
         search_window = tk.Toplevel(self.root)
