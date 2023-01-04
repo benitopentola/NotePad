@@ -27,6 +27,7 @@ class Notepad:
         menubar.add_cascade(label="File", menu=file_menu)
         file_menu.add_command(label="Save", command=self.save)
         file_menu.add_command(label="Open", command=self.open)
+        file_menu.add_command(label="New", command=self.create_new_file)
 #
         # Creamos un menú Edit (Editar)
         edit_menu = tk.Menu(menubar)
@@ -54,6 +55,12 @@ class Notepad:
 
             self.text.delete("1.0", "end")
             self.text.insert("1.0", contents)
+
+    def create_new_file(self):
+        file_dialog = filedialog.asksaveasfilename(defaultextension=".txt")
+        if file_dialog:
+            with open(file_dialog, "w") as file:
+                file.write("")
 
     def search(self):
         search_window = tk.Toplevel(self.root)
