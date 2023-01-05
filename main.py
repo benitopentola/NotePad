@@ -31,6 +31,7 @@ class Notepad:
         file_menu.add_command(label="New", command=self.create_new_file)
         file_menu.add_command(label="Open containing folder", command=self.open_containing_folder)
         file_menu.add_command(label="Open in Notepad", command=self.open_in_notepad)
+        file_menu.add_command(label="Save As", command=self.save_as)
         #
         # Creamos un menú Edit (Editar)
         edit_menu = tk.Menu(menubar)
@@ -147,6 +148,18 @@ class Notepad:
         self.text.delete("1.0", "end")
         # Insertamos el contenido convertido a minúsculas
         self.text.insert("1.0", lowercase_text)
+
+    def save_as(self):
+        # Obtener el contenido del editor
+        contents = self.text.get("1.0", "end-1c")
+
+        # Abrir un cuadro de diálogo para seleccionar el nombre y la ubicación de la copia
+        file_dialog = filedialog.asksaveasfilename(defaultextension=".txt")
+
+        # Si se seleccionó un nombre y una ubicación, guardar la copia
+        if file_dialog:
+            with open(file_dialog, "w") as file:
+                file.write(contents)
 
     def select_all(self):
         self.text.tag_add("sel", "1.0", "end")
