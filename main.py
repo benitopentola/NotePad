@@ -156,7 +156,6 @@ class Notepad:
         # Abrir un cuadro de diálogo para seleccionar el nombre y la ubicación de la copia
         file_dialog = filedialog.asksaveasfilename(defaultextension=".txt")
 
-        # Si se seleccionó un nombre y una ubicación, guardar la copia
         if file_dialog:
             with open(file_dialog, "w") as file:
                 file.write(contents)
