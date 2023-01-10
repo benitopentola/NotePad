@@ -11,7 +11,7 @@ class Notepad:
     def __init__(self, root):
         self.root = root
         self.root.title("Otterpad")
-
+        self.current_file = None
         self.text = tk.Text(self.root, font=("Arial", 12))
         self.text.pack(expand=True, fill='both')
 
@@ -45,7 +45,7 @@ class Notepad:
         edit_menu.add_command(label="Select All", command=self.select_all)
 
     def rename_file(self):
-        current_file = self.get_current_file()
+        current_file = self.current_file # aqui se obtiene la ruta
         if not current_file:
             return
 
@@ -54,6 +54,7 @@ class Notepad:
             return
 
         os.rename(current_file, new_name)
+        self.current_file = new_name
         self.root.title(os.path.basename(new_name) + " - Otterpad")
 
     def get_current_file(self):
@@ -67,6 +68,8 @@ class Notepad:
         if file_dialog:
             with open(file_dialog, "w") as file:
                 file.write(contents)
+            self.current_file = file_dialog  # almacenar la ruta del archivo actual
+            self.root.title(os.path.basename(self.current_file) + " - Otterpad")
 
     def open(self):
         file_dialog = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
