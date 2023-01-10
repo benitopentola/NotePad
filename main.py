@@ -32,6 +32,7 @@ class Notepad:
         file_menu.add_command(label="Open containing folder", command=self.open_containing_folder)
         file_menu.add_command(label="Open in Notepad", command=self.open_in_notepad)
         file_menu.add_command(label="Save As", command=self.save_as)
+        file_menu.add_command(label="Rename", command=self.rename_file)
         #
         # Creamos un menú Edit (Editar)
         edit_menu = tk.Menu(menubar)
@@ -42,6 +43,22 @@ class Notepad:
         edit_menu.add_command(label="Convert to Uppercase", command=self.convert_to_uppercase)
         edit_menu.add_command(label="Convert to Lowercase", command=self.convert_to_lowercase)
         edit_menu.add_command(label="Select All", command=self.select_all)
+
+    def rename_file(self):
+        current_file = self.get_current_file()
+        if not current_file:
+            return
+
+        new_name = filedialog.asksaveasfilename(initialfile=os.path.basename(current_file), defaultextension=".txt")
+        if not new_name:
+            return
+
+        os.rename(current_file, new_name)
+        self.root.title(os.path.basename(new_name) + " - Otterpad")
+
+    def get_current_file(self):
+        current_file = self.root.title().split(" - ")[0]
+        return current_file
 
     def save(self):
         contents = self.text.get("1.0", "end-1c")
